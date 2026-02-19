@@ -1,30 +1,49 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class Battlefield {
     
     public static void main(String[] args) {
-        Thing scaryLarry = new Thing("Scary Larry", 33);
-        Player wolverine = new Player("Wolverine", 17, 5, 7);
+        ArrayList<Player> PlayerList = new ArrayList<>(Arrays.asList(
+            new Man("Scary Larry"), 
+            new Player("Wolverine", 170, 5, 7),
+            new Thing("Daisy"),
+            new EvilMan("Duck")
+        )
+        );
 
-        while (wolverine.getHealth() > 0 && scaryLarry.getHealth() > 0) {
+        while (PlayerList.size() > 1) {
 
-            double attackRoll = Math.random();
+            int attackRoll = (int) (Math.random() * PlayerList.size());
+            int defendRoll = (int) (Math.random() * PlayerList.size());
+
+            // prevent self attack
+            while (defendRoll != attackRoll) {
+                defendRoll = (int) (Math.random() * PlayerList.size());
+            }
+
             Player attacker;
             Player defender;
 
-            if (attackRoll < 0.5) {
-                attacker = scaryLarry;
-                defender = wolverine;
-            } else {
-                attacker = wolverine;
-                defender = scaryLarry;
-            }
+            attacker = PlayerList.get(attackRoll);
+            defender = PlayerList.get(attackRoll);
 
             InfoContainer result = attacker.attack(defender);
 
             System.out.println(result.getMessage());
-            defender.takeDamage(result.getDamage());
-    
-            System.out.println(scaryLarry.getName() + "'s Health: " + scaryLarry.getHealth());
-            System.out.println(wolverine.getName() + "'s Health: " + wolverine.getHealth());
+            defender.takeDamage(result.getDamage(), attacker);
+            
+            // after stats / death
+            if (defender.getHealth() < 0) {
+                System.out.println(defender.getName() + " has fallen to " + attacker.getName() + "! Bye!");
+                PlayerList.remove(defender);
+            } else {
+                System.out.println(defender.getName() + "'s Health: " + defender.getHealth());
+            }
         }
+
+        System.out.println(PlayerList.get(0).getName() + " has won! Congratulations!");
     }
+
+
 }

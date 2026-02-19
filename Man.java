@@ -2,7 +2,7 @@ public class Man extends Player {
 
     private int blockProb = 1;
 
-    public Man(String n, int h) {
+    public Man(String n) {
         super(n, 33, 6, 4);
     }
 

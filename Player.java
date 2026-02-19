@@ -15,7 +15,7 @@ public class Player {
         health += amount;
     }
     
-    public void takeDamage(int amount) {
+    public void takeDamage(int amount, Player defender) {
         changeHealth(-amount);
     }
 

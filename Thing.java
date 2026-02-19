@@ -2,7 +2,7 @@ public class Thing extends Player {
 
     private int evilProb = 1;
 
-    public Thing(String n, int h) {
+    public Thing(String n) {
         super(n, 1000, 1, 1);
     }
 
