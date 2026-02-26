@@ -15,7 +15,7 @@ public class Player {
         health += amount;
     }
     
-    public void takeDamage(int amount, Player defender) {
+    public void takeDamage(int amount, Player attacker) {
         changeHealth(-amount);
     }
 
@@ -23,7 +23,7 @@ public class Player {
         int outdamage = 0;
         String outmessage = "";
 
-        if (rollDie() < attackProb) {
+        if (rollDie() <= attackProb) {
             outmessage = name + " successfully attacked " + defender.getName();
             outdamage = attackPower;
         } else {

@@ -18,7 +18,7 @@ public class Battlefield {
             int defendRoll = (int) (Math.random() * PlayerList.size());
 
             // prevent self attack
-            while (defendRoll != attackRoll) {
+            while (defendRoll == attackRoll) {
                 defendRoll = (int) (Math.random() * PlayerList.size());
             }
 
@@ -26,7 +26,7 @@ public class Battlefield {
             Player defender;
 
             attacker = PlayerList.get(attackRoll);
-            defender = PlayerList.get(attackRoll);
+            defender = PlayerList.get(defendRoll);
 
             InfoContainer result = attacker.attack(defender);
 
@@ -35,10 +35,10 @@ public class Battlefield {
             
             // after stats / death
             if (defender.getHealth() < 0) {
-                System.out.println(defender.getName() + " has fallen to " + attacker.getName() + "! Bye!");
+               System.out.println(defender.getName() + " has fallen to " + attacker.getName() + "! Bye!");
                 PlayerList.remove(defender);
             } else {
-                System.out.println(defender.getName() + "'s Health: " + defender.getHealth());
+               System.out.println(defender.getName() + "'s Health: " + defender.getHealth());
             }
         }
 

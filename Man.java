@@ -6,8 +6,8 @@ public class Man extends Player {
         super(n, 33, 6, 4);
     }
 
-    public void takeDamage(int amount) {
-        if (rollDie() < blockProb) {
+    public void takeDamage(int amount, Player attacker) {
+        if (rollDie() <= blockProb) {
             System.out.println(getName() + " has blocked the attack!");
         } else {
             changeHealth(-amount);

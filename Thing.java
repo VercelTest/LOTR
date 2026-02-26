@@ -10,8 +10,8 @@ public class Thing extends Player {
         int outdamage = 0;
         String outmessage = "";
 
-        if (rollDie() < getAttackProb()) {
-            outmessage = getName() + " is viewing this match";
+        if (rollDie() <= getAttackProb()) {
+            outmessage = getName() + " is viewing you";
             outdamage = getAttackPower();
         } else {
             outmessage = getName();
@@ -21,7 +21,7 @@ public class Thing extends Player {
     }
 
 
-    public void takeDamage(int amount) {
+    public void takeDamage(int amount, Player attacker) {
         if (rollDie() < evilProb) {
             System.out.println(getName() + " has been angered. " + getName() + " has decided your fate. Thank you for playing.");
             ByeCommand.ok();

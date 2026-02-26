@@ -6,10 +6,10 @@ public class EvilMan extends Player {
         super(n, 23, 6, 4);
     }
 
-    public void takeDamage(int amount, Player defender) {   
-        if (rollDie() < blockProb) {
-            System.out.println(getName() + " has taken revenge on" + defender.getName() + "!! (1/2) damage");
-            defender.takeDamage(amount / 2, this);
+    public void takeDamage(int amount, Player attacker) {   
+        if (rollDie() <= blockProb) {
+            System.out.println(getName() + " has taken revenge on" + attacker.getName() + "!! (1/2) damage");
+            attacker.takeDamage(amount / 2, this);
         } else {
             changeHealth(-amount);
         }
