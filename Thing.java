@@ -24,6 +24,13 @@ public class Thing extends Player {
     public void takeDamage(int amount, Player attacker) {
         if (((int) (Math.random() * 50) + 1) <= evilProb) {
             System.out.println(getName() + " has been angered. " + getName() + " has decided your fate. Thank you for playing.");
+            
+            try {
+                Thread.sleep(2 * 1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
             ByeCommand.ok();
         } else {
             changeHealth(-(amount / 2));
