@@ -14,6 +14,10 @@ public class Player {
     public void changeHealth(int amount) {
         health += amount;
     }
+
+    public void setHealth(int amount) {
+        health = amount;
+    }
     
     public void takeDamage(int amount, Player attacker) {
         changeHealth(-amount);

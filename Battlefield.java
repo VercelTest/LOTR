@@ -1,19 +1,24 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class Battlefield {
-    
     public static void main(String[] args) {
+        boolean skip = false;
         ArrayList<Player> PlayerList = new ArrayList<>(Arrays.asList(
             new Man("Scary Larry"), 
-            new Player("Wolverine", 170, 5, 7),
-            new Thing("Daisy"),
+            new Player("Wolverine", 17, 5, 7),
+            new Thing("chimken"),
             new EvilMan("Duck")
         )
         );
 
+        int attackMult = 1;
+        // 0 = not chosen, 1 = double attack, 2 = swap health
+        int specialRoundType = 0;
+        Scanner scanner = new Scanner(System.in);
         while (PlayerList.size() > 1) {
-
+            // round randomizer
             int attackRoll = (int) (Math.random() * PlayerList.size());
             int defendRoll = (int) (Math.random() * PlayerList.size());
 
@@ -22,38 +27,67 @@ public class Battlefield {
                 defendRoll = (int) (Math.random() * PlayerList.size());
             }
 
+            int specialRoundRoll = (int) (Math.random() * 10);
+            if (specialRoundRoll == 0) {
+                System.out.println(ColorText.ANSI_BOLD_CYAN + "SPECIAL ROUND: DOUBLE ATTACK POINTS" + ColorText.ANSI_RESET);
+                attackMult = 2;
+                specialRoundType = 1;
+            } else if (specialRoundRoll == 1) {
+                specialRoundType = 2;
+                System.out.println(ColorText.ANSI_BOLD_CYAN + "SPECIAL ROUND: SWAP HEALTH" + ColorText.ANSI_RESET);
+            } 
+
             Player attacker;
             Player defender;
 
             attacker = PlayerList.get(attackRoll);
             defender = PlayerList.get(defendRoll);
 
-            System.out.println(attacker + " is attempting to attack " + defender + "...");
-            promptEnterKey();
+
+            // attacking
+            System.out.println(ColorText.ANSI_YELLOW + attacker.getName() + " is attempting to attack " + defender.getName() + "..." + ColorText.ANSI_RESET);
+            if (!skip) {skip = promptNextKey(scanner);}
 
             InfoContainer result = attacker.attack(defender);
-
+            
+            // results + damage & resetting round
             System.out.println(result.getMessage());
-            promptEnterKey();
-            defender.takeDamage(result.getDamage(), attacker);
+            if (!skip) {skip = promptNextKey(scanner);}
+
+            if (specialRoundType == 2 && result.getDamage() > 0) {
+                int temphealth = defender.getHealth();
+                defender.setHealth(attacker.getHealth());
+                attacker.setHealth(temphealth);
+
+                System.out.println(attacker.getName() + "'s Health: " + attacker.getHealth());
+            } else {
+                defender.takeDamage(result.getDamage() * attackMult, attacker);
+            }
+
+            attackMult = 1;
+            specialRoundType = 0;
             
             // after stats / death
-            if (defender.getHealth() < 0) {
-               System.out.println(defender.getName() + " has fallen to " + attacker.getName() + "! Bye!");
+            if (defender.getHealth() <= 0) {
+               System.out.println(defender.getName() + " has " + ColorText.ANSI_RED + "fallen" + ColorText.ANSI_RESET +" to " + attacker.getName() + "! Bye!");
                 PlayerList.remove(defender);
             } else {
                System.out.println(defender.getName() + "'s Health: " + defender.getHealth());
             }
         }
 
-        System.out.println(PlayerList.get(0).getName() + " has won! Congratulations!");
+        scanner.close();
+        System.out.println(ColorText.ANSI_GREEN + PlayerList.get(0).getName() + " has won! Congratulations!" + ColorText.ANSI_RESET);
     }
 
-    public static void promptEnterKey() {
-        System.out.println("Press \"ENTER\" to continue...");
-        Scanner scanner = new Scanner(System.in);
-        scanner.nextLine();
-        scanner.close();
+    public static boolean promptNextKey(Scanner scanner) {
+        System.out.println("Press \"ENTER\" to continue or press \"E + ENTER\" to skip to the end...");
+        String input = scanner.nextLine();
+
+        if (input.equalsIgnoreCase("e")) {
+            return true;
+        }
+        return false;
     }
 
 

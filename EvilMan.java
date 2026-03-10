@@ -14,4 +14,6 @@ public class EvilMan extends Player {
             changeHealth(-amount);
         }
     }
+
+    
 }
