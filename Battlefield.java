@@ -27,7 +27,7 @@ public class Battlefield {
                 defendRoll = (int) (Math.random() * PlayerList.size());
             }
 
-            int specialRoundRoll = (int) (Math.random() * 10);
+            int specialRoundRoll = (int) (Math.random() * 20);
             if (specialRoundRoll == 0) {
                 System.out.println(ColorText.ANSI_BOLD_CYAN + "SPECIAL ROUND: DOUBLE ATTACK POINTS" + ColorText.ANSI_RESET);
                 attackMult = 2;

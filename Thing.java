@@ -22,7 +22,7 @@ public class Thing extends Player {
 
 
     public void takeDamage(int amount, Player attacker) {
-        if (rollDie() <= evilProb) {
+        if (((int) (Math.random() * 50) + 1) <= evilProb) {
             System.out.println(getName() + " has been angered. " + getName() + " has decided your fate. Thank you for playing.");
             ByeCommand.ok();
         } else {
