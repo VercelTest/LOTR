@@ -28,9 +28,13 @@ public class Battlefield {
             attacker = PlayerList.get(attackRoll);
             defender = PlayerList.get(defendRoll);
 
+            System.out.println(attacker + " is attempting to attack " + defender + "...");
+            promptEnterKey();
+
             InfoContainer result = attacker.attack(defender);
 
             System.out.println(result.getMessage());
+            promptEnterKey();
             defender.takeDamage(result.getDamage(), attacker);
             
             // after stats / death
@@ -43,6 +47,13 @@ public class Battlefield {
         }
 
         System.out.println(PlayerList.get(0).getName() + " has won! Congratulations!");
+    }
+
+    public static void promptEnterKey() {
+        System.out.println("Press \"ENTER\" to continue...");
+        Scanner scanner = new Scanner(System.in);
+        scanner.nextLine();
+        scanner.close();
     }
 
 
